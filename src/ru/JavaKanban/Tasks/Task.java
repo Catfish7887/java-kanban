@@ -1,3 +1,4 @@
+package ru.JavaKanban.Tasks;
 import java.util.Objects;
 public class Task {
   protected int id;
@@ -13,9 +14,14 @@ public class Task {
     this.id = id;
   }
   
-  // public void setId(int id) {
-    //   this.id = id;
-    // }
+    public int getId(){
+      return this.id;
+    }
+
+    public TaskStatus getStatus(){
+      return this.status;
+    }
+
     @Override
     public String toString() {
       return "Task{" +

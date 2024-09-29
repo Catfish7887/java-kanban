@@ -1,21 +1,41 @@
 package ru.JavaKanban.Tasks;
 import java.util.Objects;
 public class Task {
+  // TODO Валидация полей в конструкторе null => "null"
   protected int id;
   protected String name;
   protected String description;
   protected TaskStatus status;
 
   
-  public Task(String name, String description, int id) {
+  public Task(String name, String description) {
     this.name = name;
     this.description = description;
     this.status = TaskStatus.NEW;
-    this.id = id;
   }
   
+  public Task(String name, String description, int id, TaskStatus status){
+    this.name = name;
+    this.description = description;
+    this.status = TaskStatus.NEW;
+    this.status = status;
+    this.id = id;
+  }
+
+  public void setId(int id){
+    this.id = id;
+  } 
+
     public int getId(){
       return this.id;
+    }
+
+    public String getName(){
+      return this.name;
+    }
+
+    public String getDescription(){
+      return this.description;
     }
 
     public TaskStatus getStatus(){

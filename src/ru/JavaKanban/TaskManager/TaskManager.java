@@ -63,6 +63,9 @@ public class TaskManager {
     epic.addSubTaskId(taskId);
     this.subTasks.put(taskId, subTask);
     System.out.println("Подзадача добавлена " + subTask);
+    ArrayList<Integer> subIds = epic.getSubtasksIds();
+    Epic newEpic = new Epic(epic.getName(), epic.getDescription(), epic.getId(), calculateEpicStatus(epic), subIds);
+    updateEpic(newEpic);
   }
 
   public String getTask(int id) {
@@ -87,8 +90,16 @@ public class TaskManager {
   }
 
   public void removeSubTaskById(int id) {
+    SubTask task = subTasks.get(id);
+    int epicId = task.getEpicId();
+    Epic epic = epics.get(epicId);
+    epic.removeSubIdByValue(id);
     subTasks.remove(id);
-    System.out.println("Удалена подзадача с id" + id);
+    ArrayList<Integer> subIds = epic.getSubtasksIds();
+    Epic newEpic = new Epic(epic.getName(), epic.getDescription(), epic.getId(), calculateEpicStatus(epic), subIds);
+    updateEpic(newEpic);
+    System.out.println("Удалена подзадача с id " + id);
+
   }
 
   public void removeEpicById(int epicId) {
@@ -98,7 +109,7 @@ public class TaskManager {
       System.out.println("Удалён элемент с ID " + subId + ", который относился к удаляемому элементу");
     }
     epics.remove(epicId);
-    System.out.println("Удален эпик с id" + epicId);
+    System.out.println("Удален эпик с id " + epicId);
 
   }
 
@@ -135,14 +146,15 @@ public class TaskManager {
     System.out.println("Элемент обновлён успешно " + subTask);
     System.out.println(subTasks);
     Epic epic = epics.get(subTask.getEpicId());
-    Epic newEpic = new Epic(epic.getName(), epic.getDescription(), epic.getId(), calculateEpicStatus(epic));
+    ArrayList<Integer> subIds = epic.getSubtasksIds();
+    Epic newEpic = new Epic(epic.getName(), epic.getDescription(), epic.getId(), calculateEpicStatus(epic), subIds);
     updateEpic(newEpic);
   }
 
   public void updateEpic(Epic epic) {
     int id = epic.getId();
     epics.put(id, epic);
-    System.out.println("Элемент обновлён успешно " + epic);
+    System.out.println("Эпик обновлён успешно " + epic);
   }
 
   public void updateTask(Task task) {
@@ -155,6 +167,8 @@ public class TaskManager {
     int newStatus = 0;
     int doneStatus = 0;
     ArrayList<Integer> ids = epic.getSubtasksIds();
+    if (ids.size() == 0)
+      return TaskStatus.NEW;
 
     for (int id : ids) {
       SubTask subTask = this.subTasks.get(id);

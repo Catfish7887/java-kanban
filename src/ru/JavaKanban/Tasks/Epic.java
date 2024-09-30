@@ -7,10 +7,10 @@ public class Epic extends Task{
     super(name, descriprion);
     subTaskIds = new ArrayList<>();
   }
-  // Конструктор для 
-  public Epic(String name, String description, int id, TaskStatus status){
+
+  public Epic(String name, String description, int id, TaskStatus status, ArrayList<Integer> subTaskIds){
     super(name, description, id, status);
-    subTaskIds = new ArrayList<>();
+    this.subTaskIds = subTaskIds;
   }
 
   public void addSubTaskId(int newSubtaskId) {
@@ -25,6 +25,10 @@ public class Epic extends Task{
   // Не добавляю очистку ID эпиков у класса подзадач, так как подзадача относится к эпику, и при его удалении, существование подзадачи не имеет смысла
   public void clearSubIds(){
     subTaskIds.clear();
+  }
+
+  public void removeSubIdByValue(int v){
+    this.subTaskIds.remove(Integer.valueOf(v));
   }
 
   @Override

@@ -10,14 +10,14 @@ public class Task {
   protected TaskStatus status;
 
   public Task(String name, String description) {
-    this.description= description;
-    this.name=name;
+    this.description = description;
+    this.name = name;
     this.status = TaskStatus.NEW;
   }
 
   public Task(String name, String description, int id, TaskStatus status) {
-    this.description= description;
-    this.name=name;
+    this.description = description;
+    this.name = name;
     this.status = status;
     this.id = id;
   }

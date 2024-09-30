@@ -1,4 +1,5 @@
 package ru.JavaKanban.Tasks;
+
 public class SubTask extends Task {
 
   private int epicId;
@@ -8,12 +9,12 @@ public class SubTask extends Task {
     this.epicId = epicId;
   }
 
-  public SubTask(String name, String description, int id, int epicId, TaskStatus status){
+  public SubTask(String name, String description, int id, int epicId, TaskStatus status) {
     super(name, description, id, status);
     this.epicId = epicId;
   }
 
-  public int getEpicId(){
+  public int getEpicId() {
     return this.epicId;
   }
 

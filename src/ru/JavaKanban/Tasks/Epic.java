@@ -1,14 +1,16 @@
 package ru.JavaKanban.Tasks;
+
 import java.util.ArrayList;
-public class Epic extends Task{
+
+public class Epic extends Task {
   private ArrayList<Integer> subTaskIds;
 
-  public Epic(String name, String descriprion){
+  public Epic(String name, String descriprion) {
     super(name, descriprion);
     subTaskIds = new ArrayList<>();
   }
 
-  public Epic(String name, String description, int id, TaskStatus status, ArrayList<Integer> subTaskIds){
+  public Epic(String name, String description, int id, TaskStatus status, ArrayList<Integer> subTaskIds) {
     super(name, description, id, status);
     this.subTaskIds = subTaskIds;
   }
@@ -17,17 +19,18 @@ public class Epic extends Task{
     this.subTaskIds.add(newSubtaskId);
   }
 
-  public ArrayList<Integer> getSubtasksIds(){
+  public ArrayList<Integer> getSubtasksIds() {
     return this.subTaskIds;
   }
 
-  // При очищении списка подзадач, нужно удалить их у эпиков. 
-  // Не добавляю очистку ID эпиков у класса подзадач, так как подзадача относится к эпику, и при его удалении, существование подзадачи не имеет смысла
-  public void clearSubIds(){
+  // При очищении списка подзадач, нужно удалить их у эпиков.
+  // Не добавляю очистку ID эпиков у класса подзадач, так как подзадача относится
+  // к эпику, и при его удалении, существование подзадачи не имеет смысла
+  public void clearSubIds() {
     subTaskIds.clear();
   }
 
-  public void removeSubIdByValue(int v){
+  public void removeSubIdByValue(int v) {
     this.subTaskIds.remove(Integer.valueOf(v));
   }
 
@@ -41,5 +44,5 @@ public class Epic extends Task{
         ", status='" + this.status + "'" +
         "}";
   }
-  
+
 }

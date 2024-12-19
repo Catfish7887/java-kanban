@@ -1,10 +1,11 @@
+import ru.JavaKanban.TaskManager.InMemoryTaskManager;
 import ru.JavaKanban.TaskManager.TaskManager;
 import ru.JavaKanban.Tasks.*;
 
 class Main {
   public static void main(String[] args) {
 
-    TaskManager manager = new TaskManager();
+    TaskManager manager = new InMemoryTaskManager();
 
     Task task1 = new Task("task1", "1234");
     Task task2 = new Task("task2", "1234");

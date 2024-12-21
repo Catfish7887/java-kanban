@@ -3,6 +3,7 @@ package ru.JavaKanban.TaskManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ru.JavaKanban.HistoryManager.InMemoryHistoryManager;
 import ru.JavaKanban.Tasks.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -10,11 +11,13 @@ public class InMemoryTaskManager implements TaskManager {
   private HashMap<Integer, SubTask> subTasks;
   private HashMap<Integer, Epic> epics;
   private int newId = 0;
+  private InMemoryHistoryManager historyManager;
 
-  public InMemoryTaskManager() {
-    tasks = new HashMap<>();
-    subTasks = new HashMap<>();
-    epics = new HashMap<>();
+  public InMemoryTaskManager(InMemoryHistoryManager historyManager) {
+    this.tasks = new HashMap<>();
+    this.subTasks = new HashMap<>();
+    this.epics = new HashMap<>();
+    this.historyManager = historyManager;
   }
 
   @Override
@@ -59,18 +62,25 @@ public class InMemoryTaskManager implements TaskManager {
 
   @Override
   public String getTask(int id) {
-    return tasks.get(id).toString();
+    Task task = tasks.get(id);
+    historyManager.addToHistory(task);
+    return task.toString();
     
+
   }
 
   @Override
   public String getSubTask(int id) {
-    return subTasks.get(id).toString();
+    SubTask subtask = subTasks.get(id);
+    historyManager.addToHistory(subtask);
+    return tasks.toString();
   }
 
   @Override
   public String getEpic(int id) {
-    return epics.get(id).toString();
+    Epic epic = epics.get(id);
+    historyManager.addToHistory(epic);
+    return epic.toString();
   }
 
   @Override

@@ -20,6 +20,10 @@ public class InMemoryTaskManager implements TaskManager {
     this.historyManager = historyManager;
   }
 
+  public ArrayList<Task> getTaskHistory(){
+   return historyManager.getHistory();
+  }
+
   @Override
   public ArrayList<Task> getAllTasks() {
     return new ArrayList<>(tasks.values());

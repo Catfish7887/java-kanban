@@ -44,10 +44,8 @@ public interface TaskManager {
 
     void updateEpic(Epic epic);
 
-    void generateNewAndUpdateEpic(Epic epic);
+
 
     void updateTask(Task task);
-
-    void calculateAndSetEpicStatus(Epic epic);
 
 }

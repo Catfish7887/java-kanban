@@ -8,7 +8,8 @@ import ru.JavaKanban.Tasks.TaskStatus;
 public class TaskTest {
 
   @Test
-  void taskWithsimillarIdsShouldBeEquals() {
+  // Экземпляры класса Task должны быть равны, если равны их ID
+  void taskWithSameIdsShouldBeEquals() {
     Task task1 = new Task("name", "desc", 10, TaskStatus.NEW);
     Task task2 = new Task("name", "123", 10, TaskStatus.NEW);
     assertEquals(task1, task2);

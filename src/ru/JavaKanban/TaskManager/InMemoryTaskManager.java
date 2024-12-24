@@ -69,8 +69,6 @@ public class InMemoryTaskManager implements TaskManager {
     Task task = tasks.get(id);
     historyManager.addToHistory(task);
     return task.toString();
-    
-
   }
 
   @Override
@@ -127,7 +125,6 @@ public class InMemoryTaskManager implements TaskManager {
   @Override
   public void clearAllEpics() {
     epics.clear();
-    // Очищаю и подзадачи, так как без эпиков их существование не имеет смысла
     subTasks.clear();
   }
 
@@ -160,8 +157,8 @@ public class InMemoryTaskManager implements TaskManager {
     epics.put(id, epic);
   }
 
-  @Override
-  public void generateNewAndUpdateEpic(Epic epic) {
+
+  private void generateNewAndUpdateEpic(Epic epic) {
     Epic newEpic = new Epic(epic.getName(), epic.getDescription(), epic.getId());
     ArrayList<Integer> subIds = epic.getSubtasksIds();
     for (Integer subId : subIds) {
@@ -177,7 +174,6 @@ public class InMemoryTaskManager implements TaskManager {
     tasks.put(id, task);
   }
 
-  @Override
   public void calculateAndSetEpicStatus(Epic epic) {
     int newStatus = 0;
     int doneStatus = 0;

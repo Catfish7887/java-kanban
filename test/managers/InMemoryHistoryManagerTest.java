@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import ru.JavaKanban.Tasks.Epic;
 import ru.JavaKanban.Tasks.Task;
 import ru.JavaKanban.Tasks.TaskStatus;
 import ru.JavaKanban.HistoryManager.InMemoryHistoryManager;
@@ -33,6 +35,18 @@ public class InMemoryHistoryManagerTest {
     assertNotEquals(historyManager.getHistory().get(0).toString(), historyManager.getHistory().get(1).toString());
 
   }
+
+  @Test
+  // Менеджер истории добавляет все объекты типа Task и его наследников
+  void managerShouldAddAnyTypeOfTasks(){
+    Epic epic = new Epic("name", "desc");
+    Task task = new Task("name", "desc");
+    historyManager.addToHistory(task);
+    historyManager.addToHistory(epic);
+    assertEquals(historyManager.getHistory().get(0).getClass(), Task.class);
+    assertEquals(historyManager.getHistory().get(1).getClass(), Epic.class);
+  }
+
   @Test
   // Проверка вместимости менеджера истории, должно быть не более 10 задач
   void testOnlyTenTasks() {

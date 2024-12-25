@@ -25,7 +25,7 @@ public class Epic extends Task {
   }
 
   public ArrayList<Integer> getSubtasksIds() {
-    return this.subTaskIds;
+    return new ArrayList<Integer>(subTaskIds);
   }
 
   // При очищении списка подзадач, нужно удалить их у эпиков.

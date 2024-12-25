@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ru.JavaKanban.TaskManager.InMemoryTaskManager;
+import ru.JavaKanban.TaskManager.TaskManager;
 import ru.JavaKanban.Tasks.Epic;
 import ru.JavaKanban.Tasks.SubTask;
 import ru.JavaKanban.Tasks.Task;
@@ -17,14 +17,13 @@ import ru.JavaKanban.utils.Managers;
 
 public class InMemoryTaskManagerTest {
 
-  private InMemoryTaskManager taskManager;
+  private TaskManager taskManager;
   private String name = "name";
   private String desc = "desc";
 
   @BeforeEach
   void init() {
     this.taskManager = Managers.getDefault();
-    System.out.println("INIT");
   }
 
   @Test
@@ -52,7 +51,7 @@ public class InMemoryTaskManagerTest {
     assertFalse(taskManager.getAllEpics().isEmpty());
     assertFalse(taskManager.getAllTasks().isEmpty());
     assertFalse(taskManager.getAllSubTasks().isEmpty());
-    assertEquals(taskManager.getEpic(id), epic.toString());
+    assertEquals(taskManager.getEpic(id), epic);
   }
 
   @Test
@@ -70,7 +69,7 @@ public class InMemoryTaskManagerTest {
   void testTaskDoesntChangingAfterAdding() {
     Task task = new Task("name", "desc", 0, TaskStatus.NEW);
     taskManager.addNewTask(task);
-    assertEquals(task.toString(), taskManager.getTask(task.getId()));
+    assertEquals(task, taskManager.getTask(task.getId()));
   }
 
   @Test

@@ -3,7 +3,7 @@ package ru.JavaKanban.TaskManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import ru.JavaKanban.HistoryManager.InMemoryHistoryManager;
+import ru.JavaKanban.HistoryManager.HistoryManager;
 import ru.JavaKanban.Tasks.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -11,17 +11,18 @@ public class InMemoryTaskManager implements TaskManager {
   private HashMap<Integer, SubTask> subTasks;
   private HashMap<Integer, Epic> epics;
   private int newId = 0;
-  private InMemoryHistoryManager historyManager;
+  private HistoryManager historyManager;
 
-  public InMemoryTaskManager(InMemoryHistoryManager historyManager) {
+  public InMemoryTaskManager(HistoryManager historyManager) {
     this.tasks = new HashMap<>();
     this.subTasks = new HashMap<>();
     this.epics = new HashMap<>();
     this.historyManager = historyManager;
   }
 
-  public ArrayList<Task> getTaskHistory(){
-   return historyManager.getHistory();
+  @Override
+  public ArrayList<Task> getTaskHistory() {
+    return historyManager.getHistory();
   }
 
   @Override
@@ -65,24 +66,30 @@ public class InMemoryTaskManager implements TaskManager {
   }
 
   @Override
-  public String getTask(int id) {
+  public Task getTask(int id) {
     Task task = tasks.get(id);
-    historyManager.addToHistory(task);
-    return task.toString();
+    if (task != null) {
+      historyManager.addToHistory(task);
+    }
+    return task;
   }
 
   @Override
-  public String getSubTask(int id) {
+  public SubTask getSubTask(int id) {
     SubTask subtask = subTasks.get(id);
-    historyManager.addToHistory(subtask);
-    return tasks.toString();
+    if (subtask != null) {
+      historyManager.addToHistory(subtask);
+    }
+    return subtask;
   }
 
   @Override
-  public String getEpic(int id) {
+  public Epic getEpic(int id) {
     Epic epic = epics.get(id);
-    historyManager.addToHistory(epic);
-    return epic.toString();
+    if (epic != null) {
+      historyManager.addToHistory(epic);
+    }
+    return epic;
   }
 
   @Override
@@ -113,7 +120,6 @@ public class InMemoryTaskManager implements TaskManager {
       subTasks.remove(subId);
     }
     epics.remove(epicId);
-
 
   }
 
@@ -156,7 +162,6 @@ public class InMemoryTaskManager implements TaskManager {
     int id = epic.getId();
     epics.put(id, epic);
   }
-
 
   private void generateNewAndUpdateEpic(Epic epic) {
     Epic newEpic = new Epic(epic.getName(), epic.getDescription(), epic.getId());

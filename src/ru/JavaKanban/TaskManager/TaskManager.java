@@ -1,51 +1,49 @@
 package ru.JavaKanban.TaskManager;
 
 import java.util.ArrayList;
-
 import ru.JavaKanban.Tasks.Epic;
 import ru.JavaKanban.Tasks.SubTask;
 import ru.JavaKanban.Tasks.Task;
 
 public interface TaskManager {
+  public ArrayList<Task> getTaskHistory();
 
-    ArrayList<Task> getAllTasks();
+  ArrayList<Task> getAllTasks();
 
-    ArrayList<Epic> getAllEpics();
+  ArrayList<Epic> getAllEpics();
 
-    ArrayList<SubTask> getAllSubTasks();
+  ArrayList<SubTask> getAllSubTasks();
 
-    void addNewTask(Task task);
+  void addNewTask(Task task);
 
-    void addNewEpic(Epic epic);
+  void addNewEpic(Epic epic);
 
-    void addNewSubTask(SubTask subTask);
+  void addNewSubTask(SubTask subTask);
 
-    String getTask(int id);
+  Task getTask(int id);
 
-    String getSubTask(int id);
+  SubTask getSubTask(int id);
 
-    String getEpic(int id);
+  Epic getEpic(int id);
 
-    ArrayList<SubTask> getEpicSubTasks(int id);
+  ArrayList<SubTask> getEpicSubTasks(int id);
 
-    void removeSubTaskById(int id);
+  void removeSubTaskById(int id);
 
-    void removeEpicById(int epicId);
+  void removeEpicById(int epicId);
 
-    void removeTaskById(int id);
+  void removeTaskById(int id);
 
-    void clearAllEpics();
+  void clearAllEpics();
 
-    void clearAllTasks();
+  void clearAllTasks();
 
-    void clearAllSubTasks();
+  void clearAllSubTasks();
 
-    void updateSubTask(SubTask subTask);
+  void updateSubTask(SubTask subTask);
 
-    void updateEpic(Epic epic);
+  void updateEpic(Epic epic);
 
-
-
-    void updateTask(Task task);
+  void updateTask(Task task);
 
 }

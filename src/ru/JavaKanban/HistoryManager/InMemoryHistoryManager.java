@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.platform.engine.support.hierarchical.Node;
-
 import ru.JavaKanban.Tasks.Task;
 
 public class InMemoryHistoryManager implements HistoryManager {
@@ -54,15 +52,24 @@ public class InMemoryHistoryManager implements HistoryManager {
 
   private void linkLast(Node<Task> node, int id) {
     this.tail.setNext(node);
-    node.setPrev(this.tail);
+    node.prev = this.tail;
+    node.next = null;
     this.tail = node;
+
     idToNode.put(id, node);
   }
 
   @Override
   public ArrayList<Task> getHistory() {
     ArrayList<Task> result = new ArrayList<>();
-    
+    Node<Task> next;
+
+    result.add(this.head.data);
+    next = head.next;
+    while (next != null) {
+      result.add(next.data);
+      next = next.next;
+    }
     return result;
 
   }

@@ -40,16 +40,14 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     // Если задача стоит первой в списке, и мы повторно её просматриваем
     if (this.head.data.getId() == taskToAdd.getId()) {
-      Node<Task> newHeadLink = this.head.next;
-      newHeadLink.prev = null;
-      this.head = newHeadLink;
-      linkLast(newNode, 0);
+      unlinkFirst();
+      linkLastAndAddToHistory(newNode, 0);
       return;
     }
 
     // Стандартный сценарий добавления. Если задачи ещё не было в списке, и есть
     // начало и конец списка.
-    linkLast(newNode, taskToAdd.getId());
+    linkLastAndAddToHistory(newNode, taskToAdd.getId());
 
   }
 
@@ -79,7 +77,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     this.head = newHeadLink;
   }
 
-  private void linkLast(Node<Task> node, int id) {
+  private void linkLastAndAddToHistory(Node<Task> node, int id) {
     this.tail.next = node;
     node.prev = this.tail;
     node.next = null;

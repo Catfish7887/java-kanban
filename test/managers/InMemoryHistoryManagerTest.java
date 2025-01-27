@@ -50,7 +50,7 @@ public class InMemoryHistoryManagerTest {
   @Test
   // Проверка вместимости менеджера истории, должно быть не более 10 задач
   void testOnlyTenTasks() {
-    for (int i = 1; i < 12; i++) {
+    for (int i = 1; i <= 3; i++) {
       Task task = new Task("name", "desc", i, TaskStatus.DONE);
       historyManager.addToHistory(task);
     }
@@ -58,9 +58,11 @@ public class InMemoryHistoryManagerTest {
     // При создании задачи в цикле, номер итерации присваивается ID задачи. 
     // Цикл повторяется 11 раз, на 10 итерации заканчивается место в массиве, и удаляется первый элемент - задача с ID 1.
     // На последней итерации первой в списке становится задача с ID 2, последней в списке будет задача с ID 11.
-    assertEquals(historyManager.getHistory().size(), 10);
-    assertEquals(historyManager.getHistory().get(0).getId(), 2);
-    assertEquals(historyManager.getHistory().get(9).getId(), 11);
+    assertEquals(3,historyManager.getHistory().get(2).getId());
+    historyManager.addToHistory(new Task("1", "2", 4, null));
+    historyManager.addToHistory(new Task("1", "2", 1, null));
+     
+    assertEquals(1,historyManager.getHistory().get(3).getId());
 
   }
 }

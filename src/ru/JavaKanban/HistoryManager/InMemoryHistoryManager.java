@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.platform.engine.support.hierarchical.Node;
+
 import ru.JavaKanban.Tasks.Task;
 
 public class InMemoryHistoryManager implements HistoryManager {
@@ -16,22 +18,18 @@ public class InMemoryHistoryManager implements HistoryManager {
     idToNode = new HashMap<>();
   }
 
-  // public void addToHistory(Task task) {
-  // if (history.size() == 10) {
-  // history.remove(0);
-  // }
-  // history.add(task);
-  // }
-
   @Override
   public void addToHistory(Task taskToAdd) {
     Node<Task> newNode = new Node<Task>(head, tail, taskToAdd);
 
+    // Если список задач пустой
     if (head == null) {
       idToNode.put(taskToAdd.getId(), newNode);
       this.head = newNode;
       return;
     }
+
+    // Если у нас одна задача в списке
     if (head != null && tail == null) {
       newNode.setPrev(this.head);
       this.head.setNext(newNode);
@@ -39,6 +37,8 @@ public class InMemoryHistoryManager implements HistoryManager {
       this.tail = newNode;
       return;
     }
+
+    // Если задача стоит первой в списке, и мы повторно её просматриваем
     if (this.head.data.getId() == taskToAdd.getId()) {
       Node<Task> newHeadLink = this.head.next;
       newHeadLink.prev = null;
@@ -46,12 +46,41 @@ public class InMemoryHistoryManager implements HistoryManager {
       linkLast(newNode, 0);
       return;
     }
+
+    // Стандартный сценарий добавления. Если задачи ещё не было в списке, и есть
+    // начало и конец списка.
     linkLast(newNode, taskToAdd.getId());
 
   }
 
+  @Override
+  public void removeTask(int id) {
+
+    // Если удаляемый элемент стоит первым в списке
+    if (this.head.data.getId() == id) {
+      unlinkFirst();
+      idToNode.remove(id);
+      return;
+    }
+
+    Node<Task> nodeToDelete = idToNode.get(id);
+    nodeToDelete.prev.next = nodeToDelete.next;
+    nodeToDelete.next.prev = nodeToDelete.prev;
+    idToNode.remove(id);
+  }
+
+  // Отвязать первую задачу, првязать следующую к голове списка
+  private void unlinkFirst() {
+
+    Node<Task> newHeadLink = this.head.next;
+    newHeadLink.prev = null;
+    this.head.next = null;
+
+    this.head = newHeadLink;
+  }
+
   private void linkLast(Node<Task> node, int id) {
-    this.tail.setNext(node);
+    this.tail.next = node;
     node.prev = this.tail;
     node.next = null;
     this.tail = node;

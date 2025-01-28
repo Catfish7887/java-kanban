@@ -16,7 +16,13 @@ public class Epic extends Task {
     subTaskIds = new ArrayList<>();
   }
 
-  public void setStatus(TaskStatus status){
+  public Epic(Epic epicToCopy) {
+    super(epicToCopy.name, epicToCopy.description);
+    this.id = epicToCopy.id;
+    this.subTaskIds = new ArrayList<>(epicToCopy.subTaskIds);
+  }
+
+  public void setStatus(TaskStatus status) {
     this.status = status;
   }
 

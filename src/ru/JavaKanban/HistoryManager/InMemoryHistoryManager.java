@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.platform.engine.support.hierarchical.Node;
-
+import ru.JavaKanban.Tasks.Epic;
 import ru.JavaKanban.Tasks.Task;
 
 public class InMemoryHistoryManager implements HistoryManager {
@@ -20,7 +19,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
   @Override
   public void addToHistory(Task taskToAdd) {
-    Node<Task> newNode = new Node<Task>(head, tail, taskToAdd);
+    Node<Task> newNode = new Node<Task>(null, null, taskToAdd);
 
     // Если список задач пустой
     if (head == null) {
@@ -31,8 +30,8 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     // Если у нас одна задача в списке
     if (head != null && tail == null) {
-      newNode.setPrev(this.head);
-      this.head.setNext(newNode);
+      newNode.prev = this.head;
+      this.head.next = newNode;
       idToNode.put(taskToAdd.getId(), newNode);
       this.tail = newNode;
       return;
@@ -87,6 +86,8 @@ public class InMemoryHistoryManager implements HistoryManager {
   }
 
   @Override
+  // TODO Дописать метод по распознаванию типа 
+  // Проблему с доступом к данным задачи решил через копирование объекта. Для этого написал конструкторы копирования для каждого типа
   public ArrayList<Task> getHistory() {
     ArrayList<Task> result = new ArrayList<>();
     Node<Task> next;
@@ -94,11 +95,11 @@ public class InMemoryHistoryManager implements HistoryManager {
     result.add(this.head.data);
     next = head.next;
     while (next != null) {
-      result.add(next.data);
+      result.add(new Task(next.data));
       next = next.next;
     }
-    return result;
 
+    return result;
   }
 
   // Создал класс Node внутри менеджера.
@@ -111,14 +112,6 @@ public class InMemoryHistoryManager implements HistoryManager {
       this.next = next;
       this.prev = prev;
       this.data = data;
-    }
-
-    public void setNext(Node<T> newNext) {
-      this.next = newNext;
-    }
-
-    public void setPrev(Node<T> newPrev) {
-      this.prev = newPrev;
     }
 
     public T getData() {

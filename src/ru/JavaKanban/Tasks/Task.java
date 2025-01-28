@@ -22,6 +22,14 @@ public class Task {
     this.id = id;
   }
 
+  // Конструктор копирования
+  public Task(Task taskToCopy) {
+    this.description = taskToCopy.description;
+    this.name = taskToCopy.name;
+    this.status = taskToCopy.status;
+    this.id = taskToCopy.id;
+  }
+
   public void setId(int id) {
     this.id = id;
   }

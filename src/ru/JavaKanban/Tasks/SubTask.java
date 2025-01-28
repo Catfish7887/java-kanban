@@ -14,6 +14,12 @@ public class SubTask extends Task {
     this.epicId = epicId;
   }
 
+  // Конструктор копирования
+  public SubTask(SubTask subToCopy) {
+    super(subToCopy.name, subToCopy.description, subToCopy.id, subToCopy.status);
+    this.epicId = subToCopy.epicId;
+  }
+
   public int getEpicId() {
     return this.epicId;
   }

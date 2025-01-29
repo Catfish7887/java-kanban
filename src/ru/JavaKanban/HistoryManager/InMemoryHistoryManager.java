@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.JavaKanban.Tasks.Epic;
 import ru.JavaKanban.Tasks.Task;
 
 public class InMemoryHistoryManager implements HistoryManager {
@@ -44,8 +43,8 @@ public class InMemoryHistoryManager implements HistoryManager {
       return;
     }
 
-    // Стандартный сценарий добавления. Если задачи ещё не было в списке, и есть
-    // начало и конец списка.
+    // Стандартный сценарий добавления. Если задачи ещё не было в списке,
+    // и есть начало и конец списка.
     linkLastAndAddToHistory(newNode, taskToAdd.getId());
 
   }
@@ -86,16 +85,16 @@ public class InMemoryHistoryManager implements HistoryManager {
   }
 
   @Override
-  // TODO Дописать метод по распознаванию типа 
-  // Проблему с доступом к данным задачи решил через копирование объекта. Для этого написал конструкторы копирования для каждого типа
+  // Проблему с доступом к данным задачи решил через копирование объекта.
+  // Для этого написал метод getCopy() для каждого класса.
   public ArrayList<Task> getHistory() {
     ArrayList<Task> result = new ArrayList<>();
     Node<Task> next;
 
-    result.add(this.head.data);
+    result.add(this.head.data.getCopy());
     next = head.next;
     while (next != null) {
-      result.add(new Task(next.data));
+      result.add(next.data.getCopy());
       next = next.next;
     }
 

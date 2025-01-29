@@ -34,6 +34,18 @@ public class InMemoryHistoryManagerTest {
   }
 
   @Test
+  // Менеджер должен сохранять данные эпика
+  void testManagerCanCopyEpicData(){
+    Epic epic = new Epic(null, null, 0);
+    epic.addSubTaskId(4);
+    epic.addSubTaskId(5);
+
+    historyManager.addToHistory(epic);  
+    assertEquals(epic.toString(), historyManager.getHistory().get(0).toString());
+    
+  }
+
+  @Test
   // Проверка на удаление старой версии задачи при добавлении задачи с тем же ID,
   // но другими полями
   void testUpdateTaskVersion() {

@@ -16,10 +16,12 @@ public class Epic extends Task {
     subTaskIds = new ArrayList<>();
   }
 
-  public Epic(Epic epicToCopy) {
-    super(epicToCopy.name, epicToCopy.description);
-    this.id = epicToCopy.id;
-    this.subTaskIds = new ArrayList<>(epicToCopy.subTaskIds);
+  @Override
+  public Epic getCopy() {
+      Epic epic = new Epic(name, description, id);
+      epic.status = this.status;
+      epic.subTaskIds = new ArrayList<>(this.subTaskIds);
+      return epic;
   }
 
   public void setStatus(TaskStatus status) {

@@ -2,10 +2,8 @@ package test.managers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import ru.JavaKanban.Tasks.Epic;
 import ru.JavaKanban.Tasks.Task;
 import ru.JavaKanban.Tasks.TaskStatus;
@@ -29,20 +27,18 @@ public class InMemoryHistoryManagerTest {
     assertEquals(historyManager.getHistory().get(0).getClass(), Task.class);
     assertEquals(historyManager.getHistory().get(1).getClass(), Epic.class);
 
-    
-
   }
 
   @Test
   // Менеджер должен сохранять данные эпика
-  void testManagerCanCopyEpicData(){
+  void testManagerCanCopyEpicData() {
     Epic epic = new Epic(null, null, 0);
     epic.addSubTaskId(4);
     epic.addSubTaskId(5);
 
-    historyManager.addToHistory(epic);  
+    historyManager.addToHistory(epic);
     assertEquals(epic.toString(), historyManager.getHistory().get(0).toString());
-    
+
   }
 
   @Test

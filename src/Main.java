@@ -48,7 +48,7 @@ class Main {
     System.out.println("Статус эпика обновился при добавлении новой подзадачи");
     System.out.println(manager.getEpic(epic2Id));
     System.out.println();
-    System.out.println(manager.getAllSubTasks());//Вывожу список всех подзадач
+    System.out.println(manager.getAllSubTasks());// Вывожу список всех подзадач
     manager.removeEpicById(epic1Id);// Вместе с эпиком должны удалиться все его задачи
     System.out.println();
     System.out.println("Актуальные подзадачи:");

@@ -18,10 +18,10 @@ public class Epic extends Task {
 
   @Override
   public Epic getCopy() {
-      Epic epic = new Epic(name, description, id);
-      epic.status = this.status;
-      epic.subTaskIds = new ArrayList<>(this.subTaskIds);
-      return epic;
+    Epic epic = new Epic(name, description, id);
+    epic.status = this.status;
+    epic.subTaskIds = new ArrayList<>(this.subTaskIds);
+    return epic;
   }
 
   public void setStatus(TaskStatus status) {

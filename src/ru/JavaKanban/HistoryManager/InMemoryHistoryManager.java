@@ -52,6 +52,11 @@ public class InMemoryHistoryManager implements HistoryManager {
   @Override
   public void removeTask(int id) {
 
+    // Если ID нет в списке просмотренных задач - ничего не делаем
+    if (!idToNode.keySet().contains(id)) {
+      return;
+    }
+
     // Если удаляемый элемент стоит первым в списке
     if (this.head.data.getId() == id) {
       unlinkFirst();

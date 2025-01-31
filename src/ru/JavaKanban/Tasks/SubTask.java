@@ -14,6 +14,11 @@ public class SubTask extends Task {
     this.epicId = epicId;
   }
 
+  @Override
+  public SubTask getCopy() {
+    return new SubTask(name, description, id, epicId, status);
+  }
+
   public int getEpicId() {
     return this.epicId;
   }

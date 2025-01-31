@@ -22,6 +22,10 @@ public class Task {
     this.id = id;
   }
 
+  public Task getCopy() {
+    return new Task(name, description, id, status);
+  }
+
   public void setId(int id) {
     this.id = id;
   }

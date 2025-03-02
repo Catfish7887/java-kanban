@@ -48,12 +48,7 @@ public class Task {
 
   @Override
   public String toString() {
-    return "Task{" +
-        " id='" + this.id + "'" +
-        ", name='" + this.name + "'" +
-        ", description='" + this.description + "'" +
-        ", status='" + this.status + "'" +
-        "}";
+    return String.format("%i,TASK,%s,%s,%s", id, name, description, status);
   }
 
   @Override

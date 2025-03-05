@@ -183,7 +183,7 @@ public class InMemoryTaskManager implements TaskManager {
     tasks.put(id, task);
   }
 
-  public void calculateAndSetEpicStatus(Epic epic) {
+  protected void calculateAndSetEpicStatus(Epic epic) {
     int newStatus = 0;
     int doneStatus = 0;
     ArrayList<Integer> ids = epic.getSubtasksIds();

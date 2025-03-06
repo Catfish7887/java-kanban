@@ -21,7 +21,7 @@ class Main {
       System.out.println(loadedManager.getAllSubTasks());
 
     } catch (IOException e) {
-
+      System.out.println(e.getMessage());
     }
   }
 }

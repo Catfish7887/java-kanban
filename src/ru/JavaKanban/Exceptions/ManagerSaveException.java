@@ -1,7 +1,7 @@
 package ru.JavaKanban.Exceptions;
 
-public class ManagerSaveException extends RuntimeException{
-  public ManagerSaveException(String message, Throwable e){
+public class ManagerSaveException extends RuntimeException {
+  public ManagerSaveException(String message, Throwable e) {
     super(message, e);
   }
 }

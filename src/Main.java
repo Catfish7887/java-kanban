@@ -7,8 +7,8 @@ import ru.JavaKanban.Tasks.*;
 
 class Main {
   public static void main(String[] args) {
-    try{
-    File file = File.createTempFile("file", ".csv");
+    try {
+      File file = File.createTempFile("file", ".csv");
 
       FileBackedTaskManager taskManager = new FileBackedTaskManager(new InMemoryHistoryManager(), file);
       taskManager.addNewTask(new Task("mamam", "sss"));
@@ -20,7 +20,7 @@ class Main {
       System.out.println(loadedManager.getAllEpics());
       System.out.println(loadedManager.getAllSubTasks());
 
-    } catch(IOException e){
+    } catch (IOException e) {
 
     }
   }

@@ -43,7 +43,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         lines.add(line);
       }
     } catch (FileNotFoundException e) {
-      System.out.println("Файл не найден "+ e.getMessage());
+      System.out.println("Файл не найден " + e.getMessage());
     } catch (IOException e) {
       System.out.println(e.getMessage());
     }
@@ -79,7 +79,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         textToFile.add(task.toString());
       }
 
-      // TODO Дописать toString() для эпиков и сабтасков
       for (Epic epic : epics) {
         textToFile.add(epic.toString());
       }

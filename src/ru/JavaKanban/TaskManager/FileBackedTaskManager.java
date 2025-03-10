@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.JavaKanban.Exceptions.ManagerLoadException;
 import ru.JavaKanban.Exceptions.ManagerSaveException;
 import ru.JavaKanban.HistoryManager.HistoryManager;
 import ru.JavaKanban.HistoryManager.InMemoryHistoryManager;
@@ -41,22 +42,28 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     } catch (FileNotFoundException e) {
       System.out.println("Файл не найден " + e.getMessage());
     } catch (IOException e) {
-      System.out.println(e.getMessage());
+      throw new ManagerLoadException("Ошибка при чтении файла", e);
     }
 
     for (int i = 1; i < lines.size(); i++) {
       String data = lines.get(i);
       Task task = manager.fromString(data);
-      int savedID = task.getId();
-      if (task instanceof Epic) {
-        manager.addNewEpic((Epic) task);
-      } else if (task instanceof SubTask) {
-        manager.addNewSubTask((SubTask) task);
-      } else {
-        manager.addNewTask(task);
+      TaskType type = task.getType();
+
+      switch (type.toString()) {
+        case "EPIC":
+          manager.loadEpicFromFile((Epic) task);
+          break;
+        case "SUBTASK":
+          manager.loadSubTaskFromFile((SubTask) task);
+          break;
+        default:
+          manager.loadTaskFromFile(task);
       }
 
-      task.setId(savedID);
+      if(manager.newId <= task.getId()){
+        manager.newId = task.getId() + 1;
+      }
     }
 
     return manager;
@@ -86,6 +93,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
       Files.write(backupFile.toPath(), textToFile, StandardCharsets.UTF_8);
     } catch (IOException e) {
       throw new ManagerSaveException("Ошибка при сохранении файла ", e);
+    } catch (NullPointerException e) {
+      e.printStackTrace();
     }
   }
 
@@ -109,6 +118,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
       default:
         throw new IllegalArgumentException("Неверный тип задачи");
     }
+  }
+
+  private void loadEpicFromFile(Epic epic) {
+    this.getEpicHashMap().put(epic.getId(), epic);
+
+  }
+
+  private void loadSubTaskFromFile(SubTask task) {
+    int epicId = task.getEpicId();
+    Epic epic = this.getEpicHashMap().get(epicId);
+    this.getSubHashMap().put(task.getId(), task);
+    epic.addSubTaskId(task.getId());
+  }
+
+  private void loadTaskFromFile(Task task) {
+    this.getTaskHashMap().put(task.getId(), task);
   }
 
   @Override

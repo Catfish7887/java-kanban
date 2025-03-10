@@ -14,7 +14,11 @@ class Main {
       taskManager.addNewTask(new Task("mamam", "sss"));
       taskManager.addNewEpic(new Epic("SSSSSS", "ssssss"));
       taskManager.addNewSubTask(new SubTask("SSSSSSS", "ss", 10, 1, TaskStatus.DONE));
+      // Теперь можно добавить ещё одну таску. ID задачам присваивается корректно
+      taskManager.addNewTask(new Task("4444", "44"));
       FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(file);
+      // Новым задачам присваиваются корректные ID
+      loadedManager.addNewEpic(new Epic("У меня самый большой ID", "ssssss"));
 
       System.out.println(loadedManager.getAllTasks());
       System.out.println(loadedManager.getAllEpics());

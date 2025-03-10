@@ -61,7 +61,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
           manager.loadTaskFromFile(task);
       }
 
-      if(manager.newId <= task.getId()){
+      if (manager.newId <= task.getId()) {
         manager.newId = task.getId() + 1;
       }
     }

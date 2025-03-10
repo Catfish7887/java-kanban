@@ -20,15 +20,15 @@ public class InMemoryTaskManager implements TaskManager {
     this.historyManager = historyManager;
   }
 
-  protected HashMap<Integer, Task> getTaskHashMap(){
+  protected HashMap<Integer, Task> getTaskHashMap() {
     return this.tasks;
   }
 
-  protected HashMap<Integer, SubTask> getSubHashMap(){
+  protected HashMap<Integer, SubTask> getSubHashMap() {
     return this.subTasks;
   }
 
-  protected HashMap<Integer, Epic> getEpicHashMap(){
+  protected HashMap<Integer, Epic> getEpicHashMap() {
     return this.epics;
   }
 

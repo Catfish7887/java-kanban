@@ -38,6 +38,10 @@ public class InMemoryTaskManager implements TaskManager {
     return this.epics;
   }
 
+  public Set<Task> getPrioritizedTasks(){
+    return this.prioritizedTasks;
+  }
+
   @Override
   public ArrayList<Task> getTaskHistory() {
     return historyManager.getHistory();

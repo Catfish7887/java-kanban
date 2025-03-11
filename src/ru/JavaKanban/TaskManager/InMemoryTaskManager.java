@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 
+import ru.JavaKanban.Exceptions.InvalidTaskTimeException;
+import ru.JavaKanban.Exceptions.NoStartTimeException;
 import ru.JavaKanban.HistoryManager.HistoryManager;
 import ru.JavaKanban.Tasks.*;
 
@@ -38,7 +40,25 @@ public class InMemoryTaskManager implements TaskManager {
     return this.epics;
   }
 
-  public Set<Task> getPrioritizedTasks(){
+  private void validateNewTask(Task task) {
+    if (task.getStartTime() == null) {
+      throw new NoStartTimeException(
+          "Время начала выполнения задачи не задано. Приоритет задачи не будет учитываться.");
+    }
+
+    if (hasOverlappingTasks(task)) {
+      throw new InvalidTaskTimeException(
+          "Время выполнения новой задачи пересекается с временем выполнения существующей задачи");
+    }
+  }
+
+  public boolean hasOverlappingTasks(Task newTask) {
+    return prioritizedTasks.stream()
+        .filter(task -> task.getStartTime().isBefore(newTask.getEndTime()))
+        .anyMatch(task -> task.getEndTime().isAfter(newTask.getStartTime()));
+  }
+
+  public Set<Task> getPrioritizedTasks() {
     return this.prioritizedTasks;
   }
 
@@ -64,6 +84,15 @@ public class InMemoryTaskManager implements TaskManager {
 
   @Override
   public void addNewTask(Task task) {
+    try {
+      validateNewTask(task);
+    } catch (InvalidTaskTimeException e) {
+      System.err.println(e.getMessage() + "\n" + task);
+      return;
+
+    } catch (NoStartTimeException e) {
+      System.err.println(e.getMessage() + "\n" + task);
+    }
     int taskId = this.newId++;
     task.setId(taskId);
     tasks.put(taskId, task);
@@ -78,6 +107,15 @@ public class InMemoryTaskManager implements TaskManager {
 
   @Override
   public void addNewSubTask(SubTask subTask) {
+    try {
+      validateNewTask(subTask);
+    } catch (InvalidTaskTimeException e) {
+      System.err.println(e.getMessage() + "\n" + subTask);
+      return;
+    } catch (NoStartTimeException e) {
+      System.err.println(e.getMessage() + "\n" + subTask);
+    }
+
     int taskId = this.newId++;
     subTask.setId(taskId);
     int epicId = subTask.getEpicId();
@@ -150,6 +188,7 @@ public class InMemoryTaskManager implements TaskManager {
 
   @Override
   public void removeTaskById(int id) {
+    prioritizedTasks.remove(tasks.get(id));
     tasks.remove(id);
     historyManager.removeTask(id);
   }
@@ -176,6 +215,14 @@ public class InMemoryTaskManager implements TaskManager {
 
   @Override
   public void updateSubTask(SubTask subTask) {
+    try {
+      validateNewTask(subTask);
+    } catch (InvalidTaskTimeException e) {
+      System.err.println(e.getMessage() + "\n" + subTask);
+      return;
+    } catch (NoStartTimeException e) {
+      System.err.println(e.getMessage() + "\n" + subTask);
+    }
     int id = subTask.getId();
     subTasks.put(id, subTask);
     System.out.println(subTasks);
@@ -201,6 +248,14 @@ public class InMemoryTaskManager implements TaskManager {
 
   @Override
   public void updateTask(Task task) {
+    try {
+      validateNewTask(task);
+    } catch (InvalidTaskTimeException e) {
+      System.err.println(e.getMessage() + "\n" + task);
+      return;
+    } catch (NoStartTimeException e) {
+      System.err.println(e.getMessage() + "\n" + task);
+    }
     int id = task.getId();
     tasks.put(id, task);
   }

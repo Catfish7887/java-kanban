@@ -10,7 +10,7 @@ public class InMemoryTaskManager implements TaskManager {
   private HashMap<Integer, Task> tasks;
   private HashMap<Integer, SubTask> subTasks;
   private HashMap<Integer, Epic> epics;
-  private int newId = 0;
+  protected int newId = 0;
   private HistoryManager historyManager;
 
   public InMemoryTaskManager(HistoryManager historyManager) {
@@ -18,6 +18,18 @@ public class InMemoryTaskManager implements TaskManager {
     this.subTasks = new HashMap<>();
     this.epics = new HashMap<>();
     this.historyManager = historyManager;
+  }
+
+  protected HashMap<Integer, Task> getTaskHashMap() {
+    return this.tasks;
+  }
+
+  protected HashMap<Integer, SubTask> getSubHashMap() {
+    return this.subTasks;
+  }
+
+  protected HashMap<Integer, Epic> getEpicHashMap() {
+    return this.epics;
   }
 
   @Override
@@ -183,7 +195,7 @@ public class InMemoryTaskManager implements TaskManager {
     tasks.put(id, task);
   }
 
-  public void calculateAndSetEpicStatus(Epic epic) {
+  protected void calculateAndSetEpicStatus(Epic epic) {
     int newStatus = 0;
     int doneStatus = 0;
     ArrayList<Integer> ids = epic.getSubtasksIds();

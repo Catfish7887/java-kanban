@@ -46,14 +46,18 @@ public class Task {
     return this.status;
   }
 
+  public TaskType getType() {
+    return TaskType.TASK;
+  }
+
   @Override
   public String toString() {
-    return "Task{" +
-        " id='" + this.id + "'" +
-        ", name='" + this.name + "'" +
-        ", description='" + this.description + "'" +
-        ", status='" + this.status + "'" +
-        "}";
+    return String.format("%d,%s,%s,%s,%s,",
+        this.id,
+        TaskType.TASK,
+        this.name,
+        this.status,
+        this.description);
   }
 
   @Override

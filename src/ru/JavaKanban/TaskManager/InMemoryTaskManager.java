@@ -1,7 +1,11 @@
 package ru.JavaKanban.TaskManager;
 
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 import ru.JavaKanban.HistoryManager.HistoryManager;
 import ru.JavaKanban.Tasks.*;
@@ -12,11 +16,13 @@ public class InMemoryTaskManager implements TaskManager {
   private HashMap<Integer, Epic> epics;
   protected int newId = 0;
   private HistoryManager historyManager;
+  private Set<Task> prioritizedTasks;
 
   public InMemoryTaskManager(HistoryManager historyManager) {
     this.tasks = new HashMap<>();
     this.subTasks = new HashMap<>();
     this.epics = new HashMap<>();
+    this.prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
     this.historyManager = historyManager;
   }
 
@@ -160,7 +166,7 @@ public class InMemoryTaskManager implements TaskManager {
     subTasks.clear();
     for (Epic epic : epics.values()) {
       epic.clearSubIds();
-      calculateAndSetEpicStatus(epic);
+      calculateAndSetEpicData(epic);
     }
   }
 
@@ -185,7 +191,7 @@ public class InMemoryTaskManager implements TaskManager {
     for (Integer subId : subIds) {
       newEpic.addSubTaskId(subId);
     }
-    calculateAndSetEpicStatus(newEpic);
+    calculateAndSetEpicData(newEpic);
     updateEpic(newEpic);
   }
 
@@ -195,15 +201,26 @@ public class InMemoryTaskManager implements TaskManager {
     tasks.put(id, task);
   }
 
-  protected void calculateAndSetEpicStatus(Epic epic) {
+  protected void calculateAndSetEpicData(Epic epic) {
     int newStatus = 0;
     int doneStatus = 0;
     ArrayList<Integer> ids = epic.getSubtasksIds();
+    Duration duration = Duration.ofMinutes(0);
     if (ids.size() == 0)
       epic.setStatus(TaskStatus.NEW);
 
-    for (int id : ids) {
+    for (int i = 0; i < ids.size(); i++) {
+      int id = ids.get(i);
+
       SubTask subTask = this.subTasks.get(id);
+      duration = duration.plus(subTask.getDuration());
+
+      // Если подзадача стоит первая в массиве, значит, она была добавлена самой
+      // первой
+      if (i == 0) {
+        epic.setStartTime(subTask.getStartTime());
+      }
+
       switch (subTask.getStatus()) {
         case NEW:
           newStatus++;
@@ -213,18 +230,18 @@ public class InMemoryTaskManager implements TaskManager {
           break;
         default:
           epic.setStatus(TaskStatus.IN_PROGRESS);
-          return;
+
       }
     }
 
     if (doneStatus == ids.size()) {
       epic.setStatus(TaskStatus.DONE);
-      return;
     }
     if (newStatus == ids.size()) {
       epic.setStatus(TaskStatus.NEW);
-      return;
     }
 
+    epic.setDuration(duration);
+    epic.setEndTime(epic.getStartTime().plus(duration));
   }
 }

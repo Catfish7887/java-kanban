@@ -1,5 +1,7 @@
 package ru.JavaKanban.Tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -8,22 +10,44 @@ public class Task {
   protected String name;
   protected String description;
   protected TaskStatus status;
+  protected Duration duration;
+  LocalDateTime startTime;
+  // TODO Конструктор должен принимать дату в виде строки, а formatter должен переводить строку в LocalDateTime
 
-  public Task(String name, String description) {
+  // Оставил конструктор без длительности
+  public Task(String name, String description){
     this.description = description;
     this.name = name;
     this.status = TaskStatus.NEW;
   }
 
-  public Task(String name, String description, int id, TaskStatus status) {
+  public Task(String name, String description, long duration, LocalDateTime startTime) {
+    this.description = description;
+    this.name = name;
+    this.status = TaskStatus.NEW;
+    this.duration = Duration.ofMinutes(duration);
+    this.startTime = startTime;
+  }
+
+  public Task(String name, String description, int id, TaskStatus status, long duration, LocalDateTime startTime) {
     this.description = description;
     this.name = name;
     this.status = status;
     this.id = id;
+    this.duration = Duration.ofMinutes(duration);
+    this.startTime = startTime;
   }
 
+  public LocalDateTime getStartTime(){
+    return this.startTime;
+  }
+
+  public LocalDateTime getEndTime(){
+    return startTime.plus(duration);
+  };
+
   public Task getCopy() {
-    return new Task(name, description, id, status);
+    return new Task(name, description, id, status, duration.toMinutes(), startTime);
   }
 
   public void setId(int id) {

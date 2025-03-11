@@ -1,13 +1,26 @@
 package ru.JavaKanban.Tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
   private ArrayList<Integer> subTaskIds;
+  private LocalDateTime endTime;
 
   public Epic(String name, String descriprion) {
     super(name, descriprion);
     subTaskIds = new ArrayList<>();
+  }
+
+  public void setEndTime(LocalDateTime endTime){
+    this.endTime = endTime;
+  }
+
+  @Override
+  public LocalDateTime getEndTime() {
+    return this.endTime;
+
   }
 
   public Epic(String name, String description, int id) {
@@ -24,6 +37,18 @@ public class Epic extends Task {
     return epic;
   }
 
+  public LocalDateTime getStartTime(){
+    return this.startTime;
+  }
+
+  public void setStartTime(LocalDateTime stime){
+    this.startTime = stime;
+  }
+
+  public void setDuration(Duration duration){
+    this.setDuration(duration);
+  }
+
   public void setStatus(TaskStatus status) {
     this.status = status;
   }
@@ -36,9 +61,6 @@ public class Epic extends Task {
     return new ArrayList<Integer>(subTaskIds);
   }
 
-  // При очищении списка подзадач, нужно удалить их у эпиков.
-  // Не добавляю очистку ID эпиков у класса подзадач, так как подзадача относится
-  // к эпику, и при его удалении, существование подзадачи не имеет смысла
   public void clearSubIds() {
     subTaskIds.clear();
   }

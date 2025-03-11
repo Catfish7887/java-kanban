@@ -1,17 +1,28 @@
 package ru.JavaKanban.Tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class SubTask extends Task {
 
   private int epicId;
 
-  public SubTask(String name, String description, int epicId) {
-    super(name, description);
+  public SubTask(String name, String description, int epicId, long duration, LocalDateTime startTime) {
+    super(name, description, duration, startTime);
     this.epicId = epicId;
   }
 
-  public SubTask(String name, String description, int id, int epicId, TaskStatus status) {
-    super(name, description, id, status);
+  public SubTask(String name, String description, int id, int epicId, TaskStatus status, long duration, LocalDateTime startTime) {
+    super(name, description, id, status, duration, startTime);
     this.epicId = epicId;
+  }
+
+  public LocalDateTime getStartTime(){
+    return this.startTime;
+  }
+
+  public Duration getDuration(){
+    return this.duration;
   }
 
   @Override
@@ -21,7 +32,7 @@ public class SubTask extends Task {
 
   @Override
   public SubTask getCopy() {
-    return new SubTask(name, description, id, epicId, status);
+    return new SubTask(name, description, id, epicId, status, duration.toMinutes(), startTime);
   }
 
   public int getEpicId() {

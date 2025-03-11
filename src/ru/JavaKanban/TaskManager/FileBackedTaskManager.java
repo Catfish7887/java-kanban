@@ -20,7 +20,7 @@ import ru.JavaKanban.Tasks.*;
 public class FileBackedTaskManager extends InMemoryTaskManager {
   private File backupFile;
   private static final String CSV_FIRSTLINE = "id,type,name,status,description,epicID";
-
+  // TODO Добавить сериализацию нового типа задачи, добавить дату и длительность в строку CSV
   public FileBackedTaskManager(HistoryManager historyManager, File file) {
     super(historyManager);
     this.backupFile = file;

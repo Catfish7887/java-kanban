@@ -1,6 +1,8 @@
 package ru.JavaKanban.TaskManager;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import ru.JavaKanban.Tasks.Epic;
 import ru.JavaKanban.Tasks.SubTask;
 import ru.JavaKanban.Tasks.Task;
@@ -26,7 +28,7 @@ public interface TaskManager {
 
   Epic getEpic(int id);
 
-  ArrayList<SubTask> getEpicSubTasks(int id);
+  List<SubTask> getEpicSubTasks(int id);
 
   void removeSubTaskById(int id);
 

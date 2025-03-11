@@ -4,8 +4,10 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import ru.JavaKanban.Exceptions.InvalidTaskTimeException;
 import ru.JavaKanban.Exceptions.NoStartTimeException;
@@ -153,12 +155,14 @@ public class InMemoryTaskManager implements TaskManager {
   }
 
   @Override
-  public ArrayList<SubTask> getEpicSubTasks(int id) {
+  public List<SubTask> getEpicSubTasks(int id) {
     Epic epic = epics.get(id);
-    ArrayList<SubTask> result = new ArrayList<>();
-    for (int subTaskId : epic.getSubtasksIds()) {
-      result.add(subTasks.get(subTaskId));
-    }
+    List<SubTask> result = subTasks.values().stream().filter(sub -> sub.getEpicId() == epic.getId())
+        .collect(Collectors.toList());
+    // ArrayList<SubTask> result = new ArrayList<>();
+    // for (int subTaskId : epic.getSubtasksIds()) {
+    // result.add(subTasks.get(subTaskId));
+    // }
     return result;
   }
 
